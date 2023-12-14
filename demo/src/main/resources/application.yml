@@ -1,0 +1,30 @@
+log:
+  home: /Users/hongyan/IdeaProjects/MyProject/hzbb-fighting/demo/demo_logs
+
+#设置数据源
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      master:
+        url: jdbc:mysql://127.0.0.1:3306/test1?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+        username: root
+        password: hy971122
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      slave:
+        url: jdbc:mysql://47.95.36.245:3306/test2?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+        username: temp
+        password: databpsPass4you!
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      initial-size: 15
+      min-idle: 15
+      max-active: 200
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: ""
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      connection-properties: false

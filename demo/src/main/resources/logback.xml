@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--定义日志文件的存储地址，使用Spring的属性文件配置方式-->
+    <springProperty scope="context" name="log.home" source="log.home" defaultValue="logs"/>
+
+    <!--定义日志文件的路径-->
+    <property name="LOG_PATH" value="${log.home}"/>
+
+    <!--定义控制台输出-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--定义 INFO 及以上级别信息输出到控制台-->
+    <root level="INFO">
+        <appender-ref ref="console"/>
+    </root>
+
+    <!--定义所有组件的日志级别，如所有 DEBUG-->
+    <logger name="com.hy" level="DEBUG"/>
+
+    <!-- date 格式定义 -->
+    <property name="LOG_DATEFORMAT" value="yyyy-MM-dd"/>
+
+    <!-- 定义日志归档文件名称格式，每天生成一个日志文件 -->
+    <property name="ARCHIVE_PATTERN" value="${LOG_PATH}/%d{${LOG_DATEFORMAT}}/app-%d{${LOG_DATEFORMAT}}-%i.log.gz"/>
+
+    <!--定义文件输出，会根据定义的阈值进行切割，支持自动归档压缩过期日志-->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/total.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--定义日志文件切割的阈值，本例是 50MB-->
+            <maxFileSize>50MB</maxFileSize>
+            <!--定义日志文件保留时间，本例是每天生成一个日志文件-->
+            <fileNamePattern>${ARCHIVE_PATTERN}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <!-- zip 压缩生成的归档文件 -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>50MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 删除过期文件 -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--定义 ERROR 级别以上信息输出到文件-->
+    <logger name="com.hy" level="ERROR" additivity="false">
+        <appender-ref ref="file"/>
+    </logger>
+
+    <!--异步输出日志信息-->
+    <appender name="asyncFile" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <appender-ref ref="file"/>
+    </appender>
+
+    <!--定义INFO及以上级别信息异步输出到文件-->
+    <logger name="com.hy" level="INFO" additivity="false">
+        <appender-ref ref="asyncFile"/>
+    </logger>
+
+</configuration>
