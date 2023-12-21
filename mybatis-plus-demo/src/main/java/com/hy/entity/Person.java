@@ -11,7 +11,7 @@ import java.util.Date;
  * </p>
  *
  * @author hy
- * @since 2023-12-20
+ * @since 2023-12-21
  */
 public class Person implements Serializable {
 
@@ -307,7 +307,7 @@ public class Person implements Serializable {
     @Override
     public String toString() {
         return "Person{" +
-        ", userId = " + userId +
+        "  userId = " + userId +
         ", username = " + username +
         ", password = " + password +
         ", salt = " + salt +

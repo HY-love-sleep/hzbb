@@ -1,6 +1,7 @@
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.hy.Application;
+import com.hy.entity.Person;
 import com.hy.entity.User;
 import com.hy.entity.dto.UserDTO;
 import com.hy.mapper.UserMapper;
