@@ -1,5 +1,5 @@
 log:
-  home: /Users/hongyan/IdeaProjects/MyProject/hzbb-fighting/demo/demo_logs
+#  home: /Users/hongyan/IdeaProjects/MyProject/hzbb-fighting/demo/demo_logs
 
 #设置数据源
 spring:
@@ -7,9 +7,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       master:
-        url: jdbc:mysql://127.0.0.1:3306/test1?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
+        url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
         username: root
-        password: hy971122
+        password: root
         driver-class-name: com.mysql.cj.jdbc.Driver
       slave:
         url: jdbc:mysql://47.95.36.245:3306/test2?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!--定义日志文件的存储地址，使用Spring的属性文件配置方式-->
-    <springProperty scope="context" name="log.home" source="log.home" defaultValue="logs"/>
+    <springProperty scope="context" name="log.home" source="log.home" defaultValue="C:/My_Work/IdeaProjects/MyGitProject/hzbb/demo/demo_logs"/>
 
     <!--定义日志文件的路径-->
     <property name="LOG_PATH" value="${log.home}"/>
