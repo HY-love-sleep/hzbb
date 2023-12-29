@@ -13,7 +13,6 @@ public class ValidateHandler<T> extends Handler<T>{
     public void doHandler(Member member) {
         if (StringUtils.isEmpty(member.getUserName()) ||
                 StringUtils.isEmpty(member.getPasswd())) {
-            // todo:结合logback
             System.out.println("信息不能为空！");
             return;
         }

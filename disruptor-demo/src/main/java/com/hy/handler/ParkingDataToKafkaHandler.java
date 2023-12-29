@@ -18,6 +18,7 @@ public class ParkingDataToKafkaHandler implements EventHandler<InParkingDataEven
     public void onEvent(InParkingDataEvent inParkingDataEvent, long l, boolean b) throws Exception {
         long threadId = Thread.currentThread().getId();
         String carLicense = inParkingDataEvent.getCarLicense();
+        //todo: 增加实际发送kafka消息
         System.out.printf("Thread Id %s send %s in plaza message to kafka...%n",threadId,carLicense);
     }
 

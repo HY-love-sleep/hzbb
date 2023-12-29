@@ -14,7 +14,7 @@ public class InParkingDataEventPublisher implements Runnable{
     Disruptor<InParkingDataEvent> disruptor;
     private CountDownLatch latch;
     // 模拟十辆车入场；
-    private static int LOOP = 10;
+    private static int LOOP = 10000;
 
     public InParkingDataEventPublisher(Disruptor<InParkingDataEvent> disruptor, CountDownLatch latch) {
         this.disruptor = disruptor;
@@ -26,11 +26,11 @@ public class InParkingDataEventPublisher implements Runnable{
         InParkingDataEventTranslator translator = new InParkingDataEventTranslator();
         for (int i = 0; i < LOOP; i++) {
             disruptor.publishEvent(translator);
-            try {
-                Thread.sleep(1000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // try {
+            //     Thread.sleep(1000L);
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }
         }
         latch.countDown();
         System.out.println("生产者写完" + LOOP + "个消息");

@@ -57,14 +57,30 @@ public class ParkingTest {
         CountDownLatch latch = new CountDownLatch(1);
         executorService.submit(new InParkingDataEventPublisher(disruptor, latch));
         latch.await();
+
         disruptor.shutdown();
         executorService.shutdown();
 
-        System.out.println("总耗时:" + (System.currentTimeMillis() - begin));
+        System.out.println("总耗时:" + (System.currentTimeMillis() - begin)); //20995
     }
 
     @Test
     public void testWithoutDisruptor() {
-        // todo: 不用disruptor实现十辆车的入库，对比耗时
+        long begin = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+            int num = (int) (Math.random() * 8000);
+            num = num + 1000;
+            int threadId = (int) Thread.currentThread().getId();
+            String carLicense = "京Z" + num;
+            ParkingInfo info = new ParkingInfo(threadId, carLicense);
+            // 存入数据库
+            service.save(info);
+            // 发送kafka
+            System.out.printf("Thread Id %s send %s in plaza message to kafka...%n",threadId,carLicense);
+            // 发短信通知
+            System.out.printf("Thread Id %s send %s in plaza sms to user%n",threadId,carLicense);
+        }
+        System.out.println("------------------------------------------------------------------------------");
+        System.out.println("总耗时:" + (System.currentTimeMillis() - begin));  //23799
     }
 }
