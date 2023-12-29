@@ -21,6 +21,7 @@
         <module>demo</module>
         <module>leetcode</module>
         <module>mybatis-plus-demo</module>
+        <module>disruptor-demo</module>
     </modules>
 
     <properties>
