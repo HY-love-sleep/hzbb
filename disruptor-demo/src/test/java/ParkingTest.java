@@ -42,7 +42,7 @@ public class ParkingTest {
         int bufferSize = 1024;
         ExecutorService executorService = Executors.newFixedThreadPool(4);
         Disruptor<InParkingDataEvent> disruptor = new Disruptor<InParkingDataEvent>(
-                (EventFactory<InParkingDataEvent>) InParkingDataEvent::new,
+                InParkingDataEvent::new,
                 bufferSize,
                 executorService,
                 ProducerType.SINGLE,
