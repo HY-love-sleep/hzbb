@@ -1,6 +1,20 @@
 import com.hy.Application;
+import com.hy.entity.Student;
+import com.hy.handler.CheckScoreHandler;
+import com.hy.handler.StudentFlagToDBHandler;
+import com.hy.producer.InParkingDataEventPublisher;
+import com.hy.producer.StudentPublisher;
+import com.lmax.disruptor.BlockingWaitStrategy;
+import com.lmax.disruptor.dsl.Disruptor;
+import com.lmax.disruptor.dsl.EventHandlerGroup;
+import com.lmax.disruptor.dsl.ProducerType;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Description: 测试这样一种场景：
@@ -13,8 +27,31 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(classes = Application.class)
 public class StudentTest {
+    @Autowired
+    private CheckScoreHandler checkScoreHandler;
+
+    @Autowired
+    private StudentFlagToDBHandler toDBHandler;
+
     @Test
     public void test() {
+        int bufferSize = 1024 * 1024;
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        Disruptor<Student> disruptor = new Disruptor<>(
+                Student::new,
+                bufferSize,
+                executorService,
+                ProducerType.MULTI,
+                new BlockingWaitStrategy());
+
+        EventHandlerGroup<Student> studentEventHandlerGroup = disruptor.handleEventsWith(checkScoreHandler);
+        studentEventHandlerGroup.then(toDBHandler);
+        disruptor.start();
+
+        executorService.submit(new StudentPublisher(disruptor));
+
+        disruptor.shutdown();
+        executorService.shutdown();
 
     }
 }
