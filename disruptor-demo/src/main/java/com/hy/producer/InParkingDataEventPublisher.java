@@ -26,11 +26,11 @@ public class InParkingDataEventPublisher implements Runnable{
         InParkingDataEventTranslator translator = new InParkingDataEventTranslator();
         for (int i = 0; i < LOOP; i++) {
             disruptor.publishEvent(translator);
-            // try {
-            //     Thread.sleep(1000L);
-            // } catch (InterruptedException e) {
-            //     e.printStackTrace();
-            // }
+             try {
+                 Thread.sleep(1000L);
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+             }
         }
         latch.countDown();
         System.out.println("生产者写完" + LOOP + "个消息");
