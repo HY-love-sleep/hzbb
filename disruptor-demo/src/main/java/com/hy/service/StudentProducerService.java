@@ -1,5 +1,7 @@
 package com.hy.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hy.entity.Student;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,33 +23,40 @@ import java.util.concurrent.ExecutionException;
  */
 @Service
 public class StudentProducerService {
-    private final KafkaTemplate<String, Student> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public StudentProducerService(KafkaTemplate<String, Student> kafkaTemplate) {
+    public StudentProducerService(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     @Value("${spring.kafka.student_topic}")
     private String topic;
 
-    public void sendStudentToKafka(Student student) {
+    public void sendStudentToKafka(String student) {
         kafkaTemplate.send(topic, student);
     }
 
-    public void sendStudentsToKafka(List<Student> students) {
+    public void sendStudentsToKafka(List<Student> students) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
         for (Student student : students) {
-            kafkaTemplate.send(topic, student);
+            String jsonStudent = objectMapper.writeValueAsString(student);
+            kafkaTemplate.send(topic, jsonStudent);
         }
     }
 
     // 异步发送
     public void AsyncSendStudentsToKafka(List<Student> students) {
         CompletableFuture[] futures = new CompletableFuture[students.size()];
-
+        ObjectMapper objectMapper = new ObjectMapper();
         for (int i = 0; i < students.size(); i++) {
             Student student = students.get(i);
+
             futures[i] = CompletableFuture.runAsync(() -> {
-                kafkaTemplate.send(topic, student);
+                try {
+                    kafkaTemplate.send(topic, objectMapper.writeValueAsString(student));
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
             });
         }
 

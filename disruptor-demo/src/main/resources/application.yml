@@ -10,9 +10,12 @@ spring:
     topic: parking-info
     student_topic: student-info
     consumer:
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: parking-info-consumer-group    # 消费者所属消息组
       enable-auto-commit: true    #设置自动提交
       auto-commit-interval: 3000    #自动提交的间隔时间
+    producer:
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 mybatis-plus:
   global-config:
