@@ -13,7 +13,6 @@ public class KafkaProducerService {
     }
 
     public void sendMessage(String topic, String value) {
-        // 或者使用KafkaTemplate发送消息
         kafkaTemplate.send(topic, value);
     }
 }

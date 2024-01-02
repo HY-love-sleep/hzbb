@@ -8,6 +8,7 @@ spring:
   kafka:
     bootstrap-servers: 192.168.174.132:9092
     topic: parking-info
+    student_topic: student-info
     consumer:
       group-id: parking-info-consumer-group    # 消费者所属消息组
       enable-auto-commit: true    #设置自动提交
