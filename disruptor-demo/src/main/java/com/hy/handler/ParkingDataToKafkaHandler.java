@@ -1,9 +1,11 @@
 package com.hy.handler;
 
+import com.hy.entity.ParkingInfo;
 import com.hy.event.InParkingDataEvent;
+import com.hy.service.KafkaProducerService;
 import com.lmax.disruptor.EventHandler;
-import com.lmax.disruptor.WorkHandler;
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,12 +15,19 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ParkingDataToKafkaHandler implements EventHandler<InParkingDataEvent>{
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
+
+    @Value("${spring.kafka.topic}")
+    private String topic;
 
     @Override
     public void onEvent(InParkingDataEvent inParkingDataEvent, long l, boolean b) throws Exception {
-        long threadId = Thread.currentThread().getId();
+        int threadId = (int) Thread.currentThread().getId();
         String carLicense = inParkingDataEvent.getCarLicense();
-        //todo: 增加实际发送kafka消息
+        ParkingInfo info = new ParkingInfo(threadId, carLicense);
+        // 增加实际发送kafka消息
+        kafkaProducerService.sendMessage(topic,info.toString());
         System.out.printf("Thread Id %s send %s in plaza message to kafka...%n",threadId,carLicense);
     }
 

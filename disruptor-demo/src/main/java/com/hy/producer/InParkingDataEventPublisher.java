@@ -14,7 +14,7 @@ public class InParkingDataEventPublisher implements Runnable{
     Disruptor<InParkingDataEvent> disruptor;
     private CountDownLatch latch;
     // 模拟十辆车入场；
-    private static int LOOP = 10000;
+    private static int LOOP = 1000;
 
     public InParkingDataEventPublisher(Disruptor<InParkingDataEvent> disruptor, CountDownLatch latch) {
         this.disruptor = disruptor;

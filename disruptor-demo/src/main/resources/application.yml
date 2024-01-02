@@ -5,7 +5,16 @@ spring:
     password: root
     url: jdbc:mysql://localhost:3306/demo?&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
 
+  kafka:
+    bootstrap-servers: 192.168.174.132:9092
+    topic: parking-info
+    consumer:
+      group-id: parking-info-consumer-group    # 消费者所属消息组
+      enable-auto-commit: true    #设置自动提交
+      auto-commit-interval: 3000    #自动提交的间隔时间
+
 mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+
