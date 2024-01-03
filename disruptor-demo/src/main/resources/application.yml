@@ -11,7 +11,8 @@ spring:
     student_topic: student-info
     consumer:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: parking-info-consumer-group    # 消费者所属消息组
+      group-id1: parking-info-consumer-group
+      group-id2: student-info-consumer-group
       enable-auto-commit: true    #设置自动提交
       auto-commit-interval: 3000    #自动提交的间隔时间
     producer:
