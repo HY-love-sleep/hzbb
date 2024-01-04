@@ -23,7 +23,6 @@ public class KafkaConsumerService {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    //todo: 修改成拉模式， 在数据量大时不会打死客户端
     @KafkaListener(topics = "student-info", groupId = "student-info-consumer-group")
     public void listen(String message) throws JsonProcessingException {
         Student event = objectMapper.readValue(message, Student.class);
