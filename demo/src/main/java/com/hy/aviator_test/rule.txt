@@ -1,0 +1,10 @@
+if(device==bil){
+    return false;
+}
+
+## 控制android的版本
+if (device=="Android" && compareVersion(version,"1.38.1")<0){
+    return false;
+}
+
+return true;
