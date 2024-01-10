@@ -16,11 +16,11 @@ public class ThreadPoolConfig {
 
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
-        return new ThreadPoolExecutor(30,
-                50,
-                100,
+        return new ThreadPoolExecutor(100,
+                200,
+                2000,
                 TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(100), r -> {
+                new LinkedBlockingQueue<>(10000), r -> {
             Thread t = new Thread(r);
             t.setName("disruptor-thread-pool");
             t.setUncaughtExceptionHandler((t1, e) -> {
@@ -28,6 +28,6 @@ public class ThreadPoolConfig {
             });
             return t;
         },
-                new ThreadPoolExecutor.AbortPolicy());
+                new ThreadPoolExecutor.CallerRunsPolicy());
     }
 }

@@ -24,10 +24,10 @@ public class SendToKafka {
     @Test
     public void test() throws JsonProcessingException {
         Random random = new Random();
-        List<Student> students = new ArrayList<>(1000);
+        List<Student> students = new ArrayList<>(100);
         int k = 0;
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
                 Student student = new Student();
                 student.setName("Student " + (k + 1));
                 k++;

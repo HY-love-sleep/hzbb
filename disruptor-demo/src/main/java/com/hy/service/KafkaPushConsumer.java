@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hy.entity.Student;
 import com.lmax.disruptor.RingBuffer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 
@@ -16,14 +15,20 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class KafkaConsumerService {
+public class KafkaPushConsumer {
 
     @Autowired
     private StudentDisruptor disruptor;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @KafkaListener(topics = "student-info", groupId = "student-info-consumer-group")
+    /**
+     * 推模式被动接受数据， 数据量大容易将服务打死
+     * @param message
+     * @throws JsonProcessingException
+     */
+
+    // @KafkaListener(topics = "student-info", groupId = "student-info-consumer-group")
     public void listen(String message) throws JsonProcessingException {
         Student event = objectMapper.readValue(message, Student.class);
         RingBuffer<Student> ringBuffer = disruptor.getDisruptor().getRingBuffer();
