@@ -6,6 +6,8 @@ import com.lmax.disruptor.EventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * Description: 打完标签的学生信息入库
  * Author: yhong
@@ -16,13 +18,17 @@ public class StudentFlagToDBHandler implements EventHandler<Student> {
     @Autowired
     private StudentService service;
 
+    @Autowired
+    ThreadPoolExecutor threadPoolExecutor;
+
     @Override
     public void onEvent(Student student, long l, boolean b) throws Exception {
-        try {
-            service.save(student);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-
+        threadPoolExecutor.submit(() -> {
+            try {
+                service.save(student);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        });
     }
 }
