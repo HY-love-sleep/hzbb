@@ -6,7 +6,7 @@ spring:
     url: jdbc:mysql://localhost:3306/demo?&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
 
   kafka:
-    bootstrap-servers: 192.168.174.132:9092
+    bootstrap-servers: 192.168.0.128:9092
     topic: parking-info
     student_topic: student-info
     consumer:

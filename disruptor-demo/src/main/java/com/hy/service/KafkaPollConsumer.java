@@ -47,7 +47,7 @@ public class KafkaPollConsumer {
     public void initializeConsumer() {
         Properties props = new Properties();
         // 配置Kafka连接属性
-        props.put("bootstrap.servers", "192.168.174.132:9092");
+        props.put("bootstrap.servers", "192.168.0.128:9092");
         props.put("group.id", "student-info-poll-consumer-group");
         props.put("max.poll.records", "100"); // 设置每次拉取的最大记录数为100
         props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
