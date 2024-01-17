@@ -1,0 +1,14 @@
+server:
+  port: 8888
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/flowable?autoReconnect=true&useUnicode=true&characterEncoding=utf-8&&zeroDateTimeBehavior=CONVERT_TO_NULL&&serverTimezone=GMT%2B8&&nullCatalogMeansCurrent=true
+
+
+# 关闭异步，不关闭历史数据的插入就是异步的，会在同一个事物里面，无法回滚
+# 开发可开启会提高些效率，上线需要关闭
+flowable:
+  async-executor-activate: true
