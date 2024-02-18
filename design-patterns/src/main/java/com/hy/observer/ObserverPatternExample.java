@@ -7,6 +7,11 @@ package com.hy.observer;
  */
 public class ObserverPatternExample {
     public static void main(String[] args) {
-        
+        ConcreteSubject subject = new ConcreteSubject();
+        subject.addObserver(new ConcreteObserver("hy"));
+        subject.addObserver(new ConcreteObserver("hz"));
+
+        subject.setState(1);
+        subject.setState(2);
     }
 }
