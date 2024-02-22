@@ -1,0 +1,5 @@
+org.springframework.context.ApplicationContextInitializer=\
+com.hy.config.MyApplicationContextInitializer
+
+org.springframework.context.ApplicationListener=com.hy.config.MyStartedApplicationListener,\
+com.hy.config.MyStartingApplicationListener
