@@ -24,6 +24,7 @@
         <module>disruptor-demo</module>
         <module>flowable-demo</module>
         <module>kafka-demo</module>
+        <module>java-validation</module>
     </modules>
 
     <properties>
