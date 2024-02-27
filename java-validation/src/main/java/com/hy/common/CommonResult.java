@@ -55,6 +55,13 @@ public class CommonResult<T> implements Serializable {
         return result;
     }
 
+    public static <T> CommonResult<T> success() {
+        CommonResult<T> result = new CommonResult<>();
+        result.code = CODE_SUCCESS;
+        result.message = "";
+        return result;
+    }
+
     public Integer getCode() {
         return code;
     }

@@ -1,5 +1,7 @@
 package com.hy.controller;
 
+import com.hy.common.CommonResult;
+import com.hy.entity.PostDTO;
 import com.hy.entity.UserAddDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -30,5 +32,11 @@ public class UserController {
     @PostMapping("/add")
     public void add(@Valid @RequestBody UserAddDTO addDTO) {
         log.info("[add][addDTO: {}]", addDTO);
+    }
+
+    @PostMapping("/post")
+    public CommonResult getTitle(@Valid @RequestBody PostDTO postDTO) {
+        log.info("postDTO: {}", postDTO);
+        return CommonResult.success();
     }
 }
