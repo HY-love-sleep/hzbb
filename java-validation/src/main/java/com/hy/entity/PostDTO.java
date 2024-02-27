@@ -1,5 +1,6 @@
 package com.hy.entity;
 
+import com.hy.annotation.MustLetter;
 import com.hy.annotation.UniqueTitle;
 import lombok.Data;
 
@@ -16,5 +17,6 @@ public class PostDTO {
     private String title;
 
     @NotNull
+    @MustLetter
     private String content;
 }
