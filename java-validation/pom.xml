@@ -31,11 +31,11 @@
 
 
         <!--在一些高版本springboot中默认并不会引入这个依赖，需要手动引入-->
-        <!--        <dependency>
+        <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <scope>compile</scope>
-        </dependency>-->
+        </dependency>
 
         <!-- 保证 Spring AOP 相关的依赖包 -->
         <dependency>
@@ -52,11 +52,11 @@
         </dependency>
 
         <!--knife4j接口文档 方便进行接口测试-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>3.0.3</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--    <groupId>com.github.xiaoymin</groupId>-->
+        <!--    <artifactId>knife4j-spring-boot-starter</artifactId>-->
+        <!--    <version>3.0.3</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 
