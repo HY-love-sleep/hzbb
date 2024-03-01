@@ -25,6 +25,7 @@
         <module>flowable-demo</module>
         <module>kafka-demo</module>
         <module>java-validation</module>
+        <module>java-pcap4j</module>
     </modules>
 
     <properties>
