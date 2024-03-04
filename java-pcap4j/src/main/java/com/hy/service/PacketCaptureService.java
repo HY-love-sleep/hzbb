@@ -42,12 +42,12 @@ public class PacketCaptureService {
                     EthernetPacket ethernetPacket = (EthernetPacket) packet;
                     if (ethernetPacket.getPayload() instanceof IpV4Packet) {  // 判断是否为IPV4数据包
                         IpV4Packet ipV4Packet = (IpV4Packet) ethernetPacket.getPayload();
-                        // log.info("ipV4 Header:{}", ipV4Packet.getHeader());
+                        log.info("ipV4 Header:{}", ipV4Packet.getHeader());
                         if (ipV4Packet.getPayload() instanceof TcpPacket) {  // 判断是否为TCP 数据包
                             TcpPacket tcpPacket = (TcpPacket) ipV4Packet.getPayload();
                             if (tcpPacket.getPayload() != null) {
                                 byte[] payloadBytes = tcpPacket.getPayload().getRawData();
-                                // 如果出现乱码， 需要指定payloadBytes的编码格式，例如UTF-8、ISO-8859-1、GBK 等；
+                                // todo: 乱码， 尝试UTF-8、ISO-8859-1、GBK 均乱码；
                                 String payloadString = new String(payloadBytes, StandardCharsets.US_ASCII);
                                 log.info("TCP payload: {}", payloadString);
                             }
