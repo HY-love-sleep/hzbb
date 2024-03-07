@@ -28,3 +28,14 @@ spring:
       test-on-return: false
       pool-prepared-statements: false
       connection-properties: false
+
+syslog:
+  producer:
+    host: 127.0.0.1
+    port: 5144
+    protocol: UDP
+
+  consumer:
+    host: 127.0.0.1
+    port: 5144
+    protocol: UDP
