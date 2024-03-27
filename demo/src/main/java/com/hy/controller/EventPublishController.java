@@ -39,4 +39,9 @@ public class EventPublishController {
         applicationContext.publishEvent(new BaseEvent<>(person, "add"));
         applicationContext.publishEvent((new BaseEvent<>(new Order("1122"), "update")));
     }
+
+    @GetMapping("/publishRegisterEvent")
+    public void publishEvent() {
+        applicationContext.publishEvent(new RegisterSuccessEvent("歪日"));
+    }
 }
