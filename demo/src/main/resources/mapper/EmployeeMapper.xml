@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hy.mapper.EmployeeMapper">
+
+
+    <insert id="saveBatch" parameterType="List">
+        INSERT INTO
+        employee (employee_id,age,employee_name,birth_date,gender,id_number,creat_time,update_time,status)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.employeeId},
+            #{item.age},
+            #{item.employeeName},
+            #{item.birthDate},
+            #{item.gender},
+            #{item.idNumber},
+            #{item.creatTime},
+            #{item.updateTime},
+            #{item.status}
+            )
+        </foreach>
+    </insert>
+</mapper>
