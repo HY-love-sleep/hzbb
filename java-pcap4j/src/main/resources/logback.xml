@@ -26,6 +26,18 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
+    <!-- Packet Base64 Log Appender -->
+    <appender name="PACKET_BASE64_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/packet_base64.log</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- Packet Base64 Logger -->
+    <logger name="PACKET_LOGGER" level="INFO">
+        <appender-ref ref="PACKET_BASE64_FILE"/>
+    </logger>
+
 
     <!-- 不同级别的日志配置 -->
     <root level="info">
