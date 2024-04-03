@@ -34,8 +34,19 @@
         </encoder>
     </appender>
     <!-- Packet Base64 Logger -->
-    <logger name="PACKET_LOGGER" level="INFO">
+    <logger name="PACKET_LOGGER_BASE64" level="INFO">
         <appender-ref ref="PACKET_BASE64_FILE"/>
+    </logger>
+
+    <appender name="PACKET_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/packet.log</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="PACKET_LOGGER" level="INFO">
+        <appender-ref ref="PACKET_FILE"/>
     </logger>
 
 
