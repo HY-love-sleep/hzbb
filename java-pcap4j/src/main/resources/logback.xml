@@ -26,16 +26,29 @@
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
-    <!-- Packet Base64 Log Appender -->
-    <appender name="PACKET_BASE64_FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/packet_base64.log</file>
+
+    <!-- IP Packet Log Appender -->
+    <appender name="IPV4_PACKET_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/ip_packet.log</file>
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>
     </appender>
-    <!-- Packet Base64 Logger -->
-    <logger name="PACKET_LOGGER_BASE64" level="INFO">
-        <appender-ref ref="PACKET_BASE64_FILE"/>
+    <!-- IP Packet Logger -->
+    <logger name="IP_PACKET_LOGGER" level="INFO">
+        <appender-ref ref="IPV4_PACKET_FILE"/>
+    </logger>
+
+    <!-- TCP Packet Log Appender -->
+    <appender name="TCP_PACKET_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/tcp_packet.log</file>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- TCP Packet Logger -->
+    <logger name="TCP_PACKET_LOGGER" level="INFO">
+        <appender-ref ref="TCP_PACKET_FILE"/>
     </logger>
 
     <appender name="PACKET_FILE" class="ch.qos.logback.core.FileAppender">
