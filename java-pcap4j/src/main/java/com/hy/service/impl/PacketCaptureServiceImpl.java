@@ -2,6 +2,8 @@ package com.hy.service.impl;
 
 import com.hy.service.PacketCaptureService;
 import com.hy.utils.PacketUtils;
+import com.hy.utils.TcpPacketReassembler;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -24,6 +26,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,11 +38,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Service
 @Slf4j
+// @AllArgsConstructor
 public class PacketCaptureServiceImpl implements PacketCaptureService {
     private static final Logger PACKET_LOGGER = LoggerFactory.getLogger("PACKET_LOGGER");
     private static final Logger IP_PACKET_LOGGER = LoggerFactory.getLogger("IP_PACKET_LOGGER");
     private static final Logger TCP_PACKET_LOGGER = LoggerFactory.getLogger("TCP_PACKET_LOGGER");
     private ConcurrentHashMap<InetSocketAddress, List<TcpPacket>> incompletePackets = new ConcurrentHashMap<>();
+    // private final TcpPacketReassembler tcpPacketReassembler;
 
     @Override
     public void startPacketCapture(PcapNetworkInterface networkInterface) {
@@ -167,6 +172,34 @@ public class PacketCaptureServiceImpl implements PacketCaptureService {
         incompletePackets.put(sourceSocketAddress, packetList);
 
     }
+
+    // private void handlePacket3(Packet packet) {
+    //     if (!(packet instanceof EthernetPacket)) {
+    //         log.debug("数据包不是一个以太网数据包");
+    //         return;
+    //     }
+    //
+    //     EthernetPacket ethernetPacket = (EthernetPacket) packet;
+    //     if (!(ethernetPacket.getPayload() instanceof IpV4Packet)) {
+    //         log.debug("数据包载荷不是IPV4数据包");
+    //         return;
+    //     }
+    //
+    //     IpV4Packet ipV4Packet = (IpV4Packet) ethernetPacket.getPayload();
+    //
+    //     if (!(ipV4Packet.getPayload() instanceof TcpPacket)) {
+    //         log.debug("数据包载荷不是TCP数据包");
+    //         return;
+    //     }
+    //
+    //     TcpPacket tcpPacket = (TcpPacket) ipV4Packet.getPayload();
+    //     InetAddress sourceAddress = ipV4Packet.getHeader().getSrcAddr();
+    //     short sourcePort = tcpPacket.getHeader().getSrcPort().value();
+    //     InetAddress destinationAddress = ipV4Packet.getHeader().getDstAddr();
+    //     short destinationPort = tcpPacket.getHeader().getDstPort().value();
+    //
+    //     tcpPacketReassembler.addPacket(sourceAddress, sourcePort, destinationAddress, destinationPort, tcpPacket);
+    // }
 
     private void processCompletePackets(List<TcpPacket> completePackets) {
         StringBuilder tcpPayloadBuilder = new StringBuilder();

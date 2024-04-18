@@ -63,7 +63,7 @@ public class JsonFileProcessor {
 
     public static void main(String[] args) {
         // 指定目录路径
-        String directoryPath = "C:\\Users\\洪岩\\Desktop\\LN-Portal\\LnMenuJson\\ln\\fixModuleCode";
+        String directoryPath = "C:\\Users\\洪岩\\Desktop\\LN-Portal\\ismp";
         processJsonFiles(directoryPath);
     }
 }

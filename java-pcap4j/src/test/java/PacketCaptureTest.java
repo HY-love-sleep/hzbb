@@ -1,5 +1,7 @@
 import com.hy.Application;
 import com.hy.service.PacketCaptureService;
+import com.hy.service.TcpReassemblyProcessor;
+import com.hy.utils.TcpPacketReassembler;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,6 +37,8 @@ import static org.mockito.Mockito.when;
 public class PacketCaptureTest {
     @Autowired
     private PacketCaptureService packetCaptureService;
+    @Autowired
+    private TcpPacketReassembler reassembler;
 
     @Test
     public void test() throws PcapNativeException, InterruptedException {
@@ -56,9 +60,9 @@ public class PacketCaptureTest {
         // executorService.shutdown();
     }
     @Test
-    public void selectNetInterfaceTest() throws IOException {
-        PcapNetworkInterface networkInterface2 = new NifSelector().selectNetworkInterface();
-        System.out.println(networkInterface2);
+    public void test1() {
+        TcpReassemblyProcessor tcpReassemblyProcessor = new TcpReassemblyProcessor(reassembler);
+
     }
 
 
