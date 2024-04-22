@@ -30,6 +30,7 @@ public class MybatisPlusConfig {
         TenantLineHandler tenantLineHandler = new TenantIdInterceptor(apiContext);
         TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor(tenantLineHandler);
         interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
+
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
         return interceptor;
     }

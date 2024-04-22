@@ -1,6 +1,7 @@
 package com.hy.interceptor;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import com.hy.annotation.IgnoreTenant;
 import com.hy.config.ApiContext;
 import lombok.RequiredArgsConstructor;
 import net.sf.jsqlparser.expression.Expression;
@@ -9,6 +10,7 @@ import net.sf.jsqlparser.schema.Column;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 /**
@@ -34,6 +36,9 @@ public class TenantIdInterceptor implements TenantLineHandler {
 
     @Override
     public boolean ignoreTable(String tableName) {
+        if (apiContext.getCurrentTenantId() == -1L) {
+            return true;
+        }
         return TenantLineHandler.super.ignoreTable(tableName);
     }
 
