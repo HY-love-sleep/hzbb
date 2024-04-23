@@ -26,6 +26,7 @@
         <module>kafka-demo</module>
         <module>java-validation</module>
         <module>java-pcap4j</module>
+        <module>oauth</module>
     </modules>
 
     <properties>
