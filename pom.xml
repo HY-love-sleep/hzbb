@@ -27,6 +27,7 @@
         <module>java-validation</module>
         <module>java-pcap4j</module>
         <module>oauth</module>
+        <module>parallel</module>
     </modules>
 
     <properties>
