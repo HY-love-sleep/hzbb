@@ -1,4 +1,4 @@
-package demo;
+package com.hy.demo;
 
 import org.springframework.util.CollectionUtils;
 
