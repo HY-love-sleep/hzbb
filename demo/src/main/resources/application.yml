@@ -9,7 +9,8 @@ spring:
       master:
         url: jdbc:mysql://127.0.0.1:3306/demo?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
         username: root
-        password: root
+#        password: root
+        password: Dsj(AEN(춇춄춄춉))
         driver-class-name: com.mysql.cj.jdbc.Driver
       slave:
         url: jdbc:mysql://47.95.36.245:3306/test2?characterEncoding=utf-8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=false
@@ -39,3 +40,9 @@ syslog:
     host: 127.0.0.1
     port: 5144
     protocol: UDP
+
+idaas:
+  decerypt:
+    decryptPassword: 123456789 # 最低配置,必须
+    url: wwww.baidu.com  #starter去远程获取密钥的地址(根据实际配置,若没有去远程获取可不配),非必须
+    customGetCryptorClass: com.athaite.idaas.CustomGetCryptor  #客户端自己代码去远程获取密钥的类(此类要实现我们starter的接口CustomGetCryptorService),非必须
