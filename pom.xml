@@ -28,6 +28,7 @@
         <module>java-pcap4j</module>
         <module>oauth</module>
         <module>parallel</module>
+        <module>jasypt</module>
     </modules>
 
     <properties>
