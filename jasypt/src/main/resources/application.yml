@@ -12,11 +12,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
+    password: Dsj(춇춄춄춉)
     url: jdbc:mysql://localhost:3306/demo?&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
 
-#jasypt:
-#  encryptor:
-#    password: hongy25
+jasypt:
+  encryptor:
+    #解密的密钥
+    password: 123456789
+    #jasypt 3.x版本默认更改了算法，如果不指定那么会报错：failed to bind properties under 'spring.datasource.druid.password' to java.lang.String
+    #解决办法：①把版本降到2.x ②指定加密方法，如下
 #    algorithm: PBEWithMD5AndDES
 #    iv-generator-classname: org.jasypt.iv.NoIvGenerator
