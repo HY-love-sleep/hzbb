@@ -29,6 +29,7 @@
         <module>oauth</module>
         <module>parallel</module>
         <module>jasypt</module>
+        <module>hebei-test</module>
     </modules>
 
     <properties>

@@ -1,0 +1,18 @@
+hb:
+  version: 1
+  signAlgo: HmacSHA256
+  signature: 1122
+  appId: APP_5B68F2A023B64A75A505345723CCBA34
+  transId: chinaunicom_bigdata_hebei
+  keyUsage: ENCRYPT/DECRYPT
+  keyId: e2e5dd1bb15a4779a4db75a5edfb14d0
+  deviceId: DEV_3D74375ABF074D58A3EBDEE89855591E
+  keySpec: SM4_128
+  mode: ECB
+  iv: 1234567812345678
+  padding: PKCS7Padding
+  createKeyUrl: http://10.243.16.50:10006/chiron/v1/system/createKey
+  encryptUrl: http://10.243.16.50:10006/cmk/v1/encrypt
+  decryptUrl: http://10.243.16.50:10006/cmk/v1/decrypt
+  getHmacUrl: http://10.243.16.50:10006/cmk/v1/hmac
+  key: kEVOrhvIw3tYBxc1w12mGJigkeXtHttE
