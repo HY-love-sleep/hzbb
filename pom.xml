@@ -30,6 +30,7 @@
         <module>parallel</module>
         <module>jasypt</module>
         <module>hebei-test</module>
+        <module>transaction</module>
     </modules>
 
     <properties>
