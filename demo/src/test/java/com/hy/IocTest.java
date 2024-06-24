@@ -16,6 +16,6 @@ public class IocTest {
     public void test() {
         AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(MyAutoConfig.class);
         A aaa = ac.getBean("a", A.class);
-        System.out.println(aaa);
+        System.out.println("======================" + aaa);
     }
 }
