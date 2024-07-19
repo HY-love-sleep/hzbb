@@ -1,7 +1,10 @@
 package com.hy.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.hy.crypto.handler.CryptoTypeHandler;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,11 +29,13 @@ public class Person implements Serializable {
     /**
      * 用户名
      */
+    @TableField(typeHandler = CryptoTypeHandler.class)
     private String username;
 
     /**
      * 密码
      */
+    @TableField(typeHandler = CryptoTypeHandler.class)
     private String password;
 
     /**
@@ -41,6 +46,7 @@ public class Person implements Serializable {
     /**
      * 电话号码
      */
+    @TableField(typeHandler = CryptoTypeHandler.class)
     private String phone;
 
     /**
@@ -61,6 +67,7 @@ public class Person implements Serializable {
     /**
      * 邮箱地址
      */
+    @TableField(typeHandler = CryptoTypeHandler.class)
     private String email;
 
     /**

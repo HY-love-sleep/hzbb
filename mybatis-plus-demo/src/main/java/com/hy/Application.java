@@ -1,6 +1,5 @@
 package com.hy;
 
-import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Date: 2023/12/14
  */
 @SpringBootApplication
-@EnableEncryptableProperties
+@MapperScan(value = "com.hy.mapper")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
