@@ -32,6 +32,7 @@
         <module>hebei-test</module>
         <module>transaction</module>
         <module>spring-security-demo</module>
+        <module>hive</module>
     </modules>
 
     <properties>
