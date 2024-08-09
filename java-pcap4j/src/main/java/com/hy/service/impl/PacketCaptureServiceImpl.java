@@ -56,7 +56,7 @@ public class PacketCaptureServiceImpl implements PacketCaptureService {
             handle.setFilter("tcp", BpfProgram.BpfCompileMode.OPTIMIZE);
 
             // 定义数据包监听器
-            PacketListener listener = this::handlePacket2;
+            PacketListener listener = this::handlePacket;
             handle.loop(-1, listener); // -1表示持续捕获数据包，直到手动停止
 
         } catch (NotOpenException | InterruptedException | PcapNativeException e) {
