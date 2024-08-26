@@ -27,7 +27,7 @@ public class PersonTest {
 
     @Test
     public void test() {
-        Person person = personService.getById(1L);
+        Person person = personService.getPersonByName("test");
         System.out.println(person);
     }
 
