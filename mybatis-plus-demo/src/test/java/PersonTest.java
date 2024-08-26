@@ -6,6 +6,7 @@ import com.hy.dto.SelectUserByNickNameResultDto;
 import com.hy.dto.SelectUserResultDto;
 import com.hy.entity.Person;
 import com.hy.mapper.PersonMapper;
+import com.hy.query.PersonQuery;
 import com.hy.service.PersonService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,16 @@ public class PersonTest {
     public void test() {
         Person person = personService.getPersonByName("test");
         System.out.println(person);
+    }
+
+    @Test
+    public void test1() {
+        PersonQuery query = new PersonQuery();
+        query.setUsername("test");
+        query.setPhone("1122");
+        query.setEmail("11@22");
+        Person personByCondition = personService.getPersonByCondition(query);
+        System.out.println(personByCondition);
     }
 
     @Test

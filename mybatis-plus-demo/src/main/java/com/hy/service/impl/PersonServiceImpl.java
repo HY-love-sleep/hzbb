@@ -1,6 +1,7 @@
 package com.hy.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.hy.annotation.EncryptSensitiveFields;
 import com.hy.annotation.IgnoreTenant;
 import com.hy.entity.Person;
 import com.hy.mapper.PersonMapper;
@@ -32,6 +33,7 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
     }
 
     @Override
+    @EncryptSensitiveFields
     @IgnoreTenant(value = true)
     public Person getPersonByName(String userName) {
         LambdaQueryWrapper<Person> queryWrapper = new LambdaQueryWrapper<>();
@@ -40,8 +42,14 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
     }
 
     @Override
+    @EncryptSensitiveFields
     @IgnoreTenant(value = true)
     public Person getPersonByCondition(PersonQuery query) {
-        return null;
+        assert query!= null;
+        LambdaQueryWrapper<Person> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(query.getUsername() != null, Person::getUsername, query.getUsername());
+        queryWrapper.eq(query.getPhone() != null, Person::getPhone, query.getPhone());
+        queryWrapper.eq(query.getEmail() != null, Person::getEmail, query.getEmail());
+        return personMapper.selectOne(queryWrapper);
     }
 }
