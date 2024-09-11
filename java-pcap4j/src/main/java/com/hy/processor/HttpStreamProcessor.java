@@ -2,10 +2,11 @@ package com.hy.processor;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.CombinedChannelDuplexHandler;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.http.*;
+import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -19,11 +20,12 @@ import java.util.regex.Pattern;
  * Date: 2024/4/2
  */
 @Slf4j
-public class HttpStreamParser {
+public class HttpStreamProcessor {
 
     public static void main(String[] args) {
-        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-request.bin"; // 替换为你的文件路径
-        String outputDir = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\output"; // 替换为输出目录路径
+        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-request-post.bin";
+        // String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-response.bin";
+        String outputDir = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\output";
         try {
             byte[] rawData = readFile(filePath);
             parseHttpMessages(rawData, outputDir);
@@ -50,15 +52,21 @@ public class HttpStreamParser {
     }
 
     /**
-     *
+     * 通过EmbeddedChannel解析字节数组为msg
      * @param rawData
      * @param outputDir
      */
-    private static void parseHttpMessages(byte[] rawData, String outputDir) {
-        // 使用 HttpClientCodec 来解析服务器响应
+    private static void parseHttpMessages(byte[] rawData, String outputDir) throws IOException {
+        // 使用 HttpClientCodec or  HttpServerCodec  来解析服务器响应
+        CombinedChannelDuplexHandler<?, ?> codec;
+        if (rawData[0] == 'H' || rawData[0] == 'h') {
+            codec = new HttpClientCodec();
+        } else {
+            codec = new HttpServerCodec();
+        }
         EmbeddedChannel channel = new EmbeddedChannel(
-                new HttpClientCodec(),
-                new HttpObjectAggregator(65536) // 最大消息大小
+                codec,
+                new HttpObjectAggregator(1048576) // 最大消息大小【需要动态调整】
         );
 
         ByteBuf byteBuf = Unpooled.wrappedBuffer(rawData);
@@ -73,7 +81,6 @@ public class HttpStreamParser {
             } else if (msg instanceof HttpContent) {
                 handleHttpContent((HttpContent) msg);
             } else if (msg instanceof LastHttpContent) {
-                // todo: 处理完所有内容
                 break;
             }
         }
@@ -81,6 +88,11 @@ public class HttpStreamParser {
         channel.close();
     }
 
+    /**
+     * 处理request
+     * @param request
+     * @param outputDir
+     */
     private static void handleHttpRequest(HttpRequest request, String outputDir) {
         log.info("Received HTTP Request:");
         log.info("URI: {}", request.uri());
