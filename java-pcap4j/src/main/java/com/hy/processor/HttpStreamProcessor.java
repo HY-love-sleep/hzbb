@@ -6,11 +6,17 @@ import io.netty.channel.CombinedChannelDuplexHandler;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
+import io.netty.handler.codec.http.multipart.FileUpload;
+import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
+import io.netty.handler.codec.http.multipart.InterfaceHttpData;
+import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,30 +99,60 @@ public class HttpStreamProcessor {
      * @param request
      * @param outputDir
      */
-    private static void handleHttpRequest(HttpRequest request, String outputDir) {
-        log.info("Received HTTP Request:");
-        log.info("URI: {}", request.uri());
-        log.info("Method: {}", request.method());
-        log.info("Headers: {}", request.headers());
-
-        if (request instanceof FullHttpRequest) {
+    private static void handleHttpRequest(HttpRequest request, String outputDir) throws IOException {
+        if (request.method() == HttpMethod.POST) {
             FullHttpRequest fullRequest = (FullHttpRequest) request;
-            // 获取 Content-Disposition 头部信息
-            String contentDisposition = fullRequest.headers().get(HttpHeaderNames.CONTENT_DISPOSITION);
-            String contentType = fullRequest.headers().get(HttpHeaderNames.CONTENT_TYPE);
-
-            // 解析文件名
-            String filename = extractFilename(contentDisposition);
-
-            if (filename != null && contentType != null) {
-                try {
-                    saveToFile(fullRequest, filename, outputDir);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                log.info("No valid filename or content type found in request.");
+            String contentType = request.headers().get(HttpHeaderNames.CONTENT_TYPE);
+            if (contentType != null && contentType.startsWith("multipart/form-data")) {
+                String boundary = extractBoundary(contentType);
+                parseMultipartFormData(fullRequest, boundary, outputDir);
             }
+        }
+    }
+    private static String extractBoundary(String contentType) {
+        int start = contentType.indexOf("boundary=");
+        if (start != -1) {
+            return contentType.substring(start + 9).trim();
+        }
+        return null;
+    }
+
+    /**
+     * 提取表单提交的文件并保存
+     * @param request
+     * @param boundary
+     * @param outputDir
+     * @throws IOException
+     */
+    private static void parseMultipartFormData(FullHttpRequest request, String boundary, String outputDir) throws IOException {
+        HttpPostRequestDecoder decoder = new HttpPostRequestDecoder(new DefaultHttpDataFactory(true), request);
+        try {
+            while (decoder.hasNext()) {
+                InterfaceHttpData data = decoder.next();
+                if (data != null) {
+                    if (data.getHttpDataType() == InterfaceHttpData.HttpDataType.FileUpload) {
+                        FileUpload fileUpload = (FileUpload) data;
+                        if (fileUpload.isCompleted()) {
+                            String fileName = fileUpload.getFilename();
+                            File outputFile = new File(outputDir, fileName);
+
+                            try (FileOutputStream fos = new FileOutputStream(outputFile)) {
+                                ByteBuf content = fileUpload.content();
+
+                                // 使用循环读取 ByteBuf 的内容并写入 FileOutputStream
+                                byte[] bytes = new byte[content.readableBytes()];
+                                content.readBytes(bytes);
+                                fos.write(bytes);
+
+                                fos.flush();
+                            }
+                            log.info("文件已保存: {}", outputFile.getAbsolutePath());
+                        }
+                    }
+                }
+            }
+        } finally {
+            decoder.destroy();
         }
     }
 
