@@ -1,15 +1,18 @@
-package com.hy;
+package com.hy.handler;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
 
-public class ClientHandler extends SimpleChannelInboundHandler<String> {
+public class ServerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
-        System.out.println("客户端收到服务器的消息: " + msg);
+        System.out.println("服务器收到消息: " + msg);
+        
+        // 向客户端发送响应消息
+        ctx.writeAndFlush("服务器已收到您的消息: " + msg + "\r\n");
     }
 
     @Override
@@ -20,11 +23,11 @@ public class ClientHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("已连接到服务器");
+        System.out.println("客户端已连接");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("与服务器断开连接");
+        System.out.println("客户端已断开连接");
     }
 }

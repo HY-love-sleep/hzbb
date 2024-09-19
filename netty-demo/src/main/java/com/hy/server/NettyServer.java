@@ -1,5 +1,6 @@
-package com.hy;
+package com.hy.server;
 
+import com.hy.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
