@@ -29,8 +29,8 @@ import java.util.regex.Pattern;
 public class HttpStreamProcessor {
 
     public static void main(String[] args) {
-        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-request-post.bin";
-        // String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-response.bin";
+        // String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-request-post.bin";
+        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-response.bin";
         String outputDir = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\output";
         try {
             byte[] rawData = readFile(filePath);
@@ -90,7 +90,6 @@ public class HttpStreamProcessor {
                 break;
             }
         }
-
         channel.close();
     }
 
@@ -143,8 +142,9 @@ public class HttpStreamProcessor {
                                 byte[] bytes = new byte[content.readableBytes()];
                                 content.readBytes(bytes);
                                 fos.write(bytes);
-
                                 fos.flush();
+
+                                content.release();
                             }
                             log.info("文件已保存: {}", outputFile.getAbsolutePath());
                         }
@@ -189,6 +189,7 @@ public class HttpStreamProcessor {
             // 打印或处理内容片段
             log.warn("Received HTTP Content Fragment: " + content.toString(io.netty.util.CharsetUtil.UTF_8));
         }
+        content.release();
     }
 
     private static String extractFilename(String contentDisposition) {
@@ -219,6 +220,7 @@ public class HttpStreamProcessor {
             
             // 确保所有数据都被写入文件
             fos.flush();
+            content.release();
         }
 
         log.info("File saved to: {}", outputFile.getAbsolutePath());
