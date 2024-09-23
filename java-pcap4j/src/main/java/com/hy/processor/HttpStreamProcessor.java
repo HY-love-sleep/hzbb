@@ -9,14 +9,11 @@ import io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
 import io.netty.handler.codec.http.multipart.FileUpload;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
-import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,13 +27,14 @@ public class HttpStreamProcessor {
 
     public static void main(String[] args) {
         // String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-request-post.bin";
-        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-response.bin";
+        // String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-response.bin";
+        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\execel-response.bin";
         String outputDir = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\output";
         try {
             byte[] rawData = readFile(filePath);
             parseHttpMessages(rawData, outputDir);
         } catch (IOException e) {
-            log.error("解析流量失败", e);
+            log.error("解析流量失败!!", e);
         }
     }
 
@@ -95,6 +93,8 @@ public class HttpStreamProcessor {
 
     /**
      * 处理request
+     * todo: 目前支持POST提交的multipart/form-data类型文件解析
+     * 考虑扩展PUT或者PATCH类型的请求以及application/octet-stream等类型的文件提交
      * @param request
      * @param outputDir
      */
@@ -146,7 +146,7 @@ public class HttpStreamProcessor {
 
                                 content.release();
                             }
-                            log.info("文件已保存: {}", outputFile.getAbsolutePath());
+                            log.info("File saved to : {}", outputFile.getAbsolutePath());
                         }
                     }
                 }
@@ -174,7 +174,7 @@ public class HttpStreamProcessor {
                 try {
                     saveToFile(fullResponse, filename, outputDir);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error("Save file failed, file name:{}", filename);
                 }
             } else {
                 log.info("No valid filename or content type found in response.");
