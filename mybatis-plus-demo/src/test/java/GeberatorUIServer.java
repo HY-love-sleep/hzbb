@@ -5,7 +5,7 @@ import com.github.davidfantasy.mybatisplus.generatorui.mbp.NameConverter;
 public class GeberatorUIServer {
 
     public static void main(String[] args) {
-        GeneratorConfig config = GeneratorConfig.builder().jdbcUrl("jdbc:mysql://localhost:3306/dev")
+        GeneratorConfig config = GeneratorConfig.builder().jdbcUrl("jdbc:mysql://localhost:3306/test")
                 .userName("root")
                 .password("root")
                 .driverClassName("com.mysql.cj.jdbc.Driver")

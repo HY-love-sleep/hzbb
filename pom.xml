@@ -33,6 +33,8 @@
         <module>transaction</module>
         <module>spring-security-demo</module>
         <module>hive</module>
+        <module>url-scan-demo</module>
+        <module>netty-demo</module>
     </modules>
 
     <properties>

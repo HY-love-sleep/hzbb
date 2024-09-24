@@ -1,7 +1,9 @@
 package com.hy.service;
 
+import com.hy.annotation.EncryptSensitiveFields;
 import com.hy.entity.Person;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hy.query.PersonQuery;
 
 import java.util.List;
 
@@ -15,4 +17,6 @@ import java.util.List;
  */
 public interface PersonService extends IService<Person> {
     List<Person> findAll();
+    Person getPersonByName(String userName);
+    Person getPersonByCondition(PersonQuery query);
 }

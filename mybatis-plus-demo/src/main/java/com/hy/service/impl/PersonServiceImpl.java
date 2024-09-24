@@ -1,8 +1,11 @@
 package com.hy.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.hy.annotation.EncryptSensitiveFields;
 import com.hy.annotation.IgnoreTenant;
 import com.hy.entity.Person;
 import com.hy.mapper.PersonMapper;
+import com.hy.query.PersonQuery;
 import com.hy.service.PersonService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +30,26 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
     @IgnoreTenant(value = false)
     public List<Person> findAll() {
         return personMapper.selectList(null);
+    }
+
+    @Override
+    @EncryptSensitiveFields
+    @IgnoreTenant(value = true)
+    public Person getPersonByName(String userName) {
+        LambdaQueryWrapper<Person> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Person::getUsername, userName);
+        return personMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    @EncryptSensitiveFields
+    @IgnoreTenant(value = true)
+    public Person getPersonByCondition(PersonQuery query) {
+        assert query!= null;
+        LambdaQueryWrapper<Person> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(query.getUsername() != null, Person::getUsername, query.getUsername());
+        queryWrapper.eq(query.getPhone() != null, Person::getPhone, query.getPhone());
+        queryWrapper.eq(query.getEmail() != null, Person::getEmail, query.getEmail());
+        return personMapper.selectOne(queryWrapper);
     }
 }

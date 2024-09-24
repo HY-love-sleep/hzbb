@@ -70,6 +70,6 @@
     </root>
 
     <!-- 对于某个特定包或类设置不同的日志级别 -->
-    <logger name="com.hy.service" level="debug"/>
+    <logger name="com.hy.service" level="info"/>
 
 </configuration>
