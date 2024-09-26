@@ -35,6 +35,7 @@
         <module>hive</module>
         <module>url-scan-demo</module>
         <module>netty-demo</module>
+        <module>parse-httpstream</module>
     </modules>
 
     <properties>
