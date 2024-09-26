@@ -6,7 +6,9 @@ import com.hy.handler.HttpResponseHandler;
 import com.hy.utils.ContentBuffer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.CombinedChannelDuplexHandler;
+import io.netty.channel.DefaultChannelPipeline;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.http.*;
 import lombok.RequiredArgsConstructor;
@@ -32,23 +34,28 @@ public class HttpMessageService {
      public void parseHttpMessages(byte[] rawData, String outputDir) throws IOException {
         CombinedChannelDuplexHandler<?, ?> codec;
         if (rawData[0] == 'H' || rawData[0] == 'h') {
-            codec = new HttpClientCodec();
+            codec = new HttpClientCodec(131072, 131072, 10 * 1024 * 1024);
         } else {
-            codec = new HttpServerCodec();
+            codec = new HttpServerCodec(131072, 131072, 10 * 1024 * 1024);
         }
         EmbeddedChannel channel = new EmbeddedChannel(
                 codec,
                 // 最大消息大小【需要动态调整】
-                new HttpObjectAggregator(1048576)
+                new HttpObjectAggregator(10 * 1024 * 1024)
         );
         ByteBuf byteBuf = Unpooled.wrappedBuffer(rawData);
-        channel.writeInbound(byteBuf);
+         boolean success = channel.writeInbound(byteBuf);
+         if (!success) {
+             log.error("Failed to write data to channel.");
+             return;
+         }
         ContentBuffer contentBuffer = new ContentBuffer();
-        while (channel.finish()) {
+        while (true) {
             Object msg = channel.readInbound();
             if (msg == null) {
                 break;
             }
+            log.info("Received message of type: {}", msg.getClass().getSimpleName());
             if (msg instanceof HttpRequest) {
                 httpRequestHandler.handleHttpStream((HttpRequest) msg, outputDir);
             } else if (msg instanceof HttpResponse) {
@@ -57,6 +64,7 @@ public class HttpMessageService {
                 httpContentHandler.handlerHttpContent((HttpContent) msg, contentBuffer);
             } else if (msg instanceof LastHttpContent) {
                 httpContentHandler.handleLastHttpContent((LastHttpContent) msg, contentBuffer, outputDir, "defaultName");
+                break;
             }
         }
         channel.close();

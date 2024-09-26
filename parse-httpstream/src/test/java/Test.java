@@ -20,8 +20,8 @@ public class Test {
     private HttpMessageService messageService;
     @org.junit.jupiter.api.Test
     public void test() {
-        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\binFiles\\nacos-request-post.bin";
-        String outputDir = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\java-pcap4j\\src\\main\\resources\\output";
+        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\parse-httpstream\\src\\main\\resources\\bin_file\\dsmm-response-jpg.bin";
+        String outputDir = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\parse-httpstream\\src\\main\\resources\\output_file";
         try {
             byte[] rawData = FileUtils.readFile(filePath);
             messageService.parseHttpMessages(rawData, outputDir);
