@@ -11,6 +11,7 @@ import io.netty.channel.CombinedChannelDuplexHandler;
 import io.netty.channel.DefaultChannelPipeline;
 import io.netty.channel.embedded.EmbeddedChannel;
 import io.netty.handler.codec.http.*;
+import io.netty.handler.stream.ChunkedWriteHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,8 @@ public class HttpMessageService {
         EmbeddedChannel channel = new EmbeddedChannel(
                 codec,
                 // 最大消息大小【需要动态调整】
-                new HttpObjectAggregator(10 * 1024 * 1024)
+                new HttpObjectAggregator(10 * 1024 * 1024),
+                new ChunkedWriteHandler()
         );
         ByteBuf byteBuf = Unpooled.wrappedBuffer(rawData);
          boolean success = channel.writeInbound(byteBuf);
@@ -51,6 +53,7 @@ public class HttpMessageService {
          }
         ContentBuffer contentBuffer = new ContentBuffer();
         while (true) {
+            // todo :解析 chunked 编码的部分。size 应该是一个十六进制数字，但在这个例子中，size 实际上是二进制数据的一部分，导致 int(size, 16) 抛出异常
             Object msg = channel.readInbound();
             if (msg == null) {
                 break;
