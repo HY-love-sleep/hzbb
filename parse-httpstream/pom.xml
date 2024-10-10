@@ -47,6 +47,18 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.4</version>
         </dependency>
+
+        <!--es high-level-client -->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.17.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>7.17.3</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -15,6 +15,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 
 
@@ -32,7 +33,7 @@ public class HttpMessageService {
     private final HttpResponseHandler httpResponseHandler;
     private final HttpContentHandler httpContentHandler;
 
-     public void parseHttpMessages(byte[] rawData, String outputDir) throws IOException {
+    public void parseHttpMessages(byte[] rawData, String outputDir) throws IOException {
         CombinedChannelDuplexHandler<?, ?> codec;
         if (rawData[0] == 'H' || rawData[0] == 'h') {
             codec = new HttpClientCodec(131072, 131072, 10 * 1024 * 1024);
@@ -46,11 +47,11 @@ public class HttpMessageService {
                 new ChunkedWriteHandler()
         );
         ByteBuf byteBuf = Unpooled.wrappedBuffer(rawData);
-         boolean success = channel.writeInbound(byteBuf);
-         if (!success) {
-             log.error("Failed to write data to channel.");
-             return;
-         }
+        boolean success = channel.writeInbound(byteBuf);
+        if (!success) {
+            log.error("Failed to write data to channel.");
+            return;
+        }
         ContentBuffer contentBuffer = new ContentBuffer();
         while (true) {
             // todo :解析 chunked 编码的部分。size 应该是一个十六进制数字，但在这个例子中，size 实际上是二进制数据的一部分，导致 int(size, 16) 抛出异常

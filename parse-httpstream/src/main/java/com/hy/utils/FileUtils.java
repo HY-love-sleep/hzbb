@@ -13,6 +13,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -116,4 +118,83 @@ public class FileUtils {
 
         return null;
     }
+
+    /**
+     * 将图片文件转换为字节数组。
+     *
+     * @param filePath 图片文件的路径
+     * @return 图片的字节数组
+     * @throws IOException 如果读取文件时发生错误
+     */
+    public static byte[] imageToByteArray(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File does not exist: " + filePath);
+        }
+
+        // 获取文件长度
+        long fileSize = file.length();
+        if (fileSize > Integer.MAX_VALUE) {
+            throw new IOException("File size exceeds the maximum allowed size: " + fileSize);
+        }
+
+        // 创建字节数组
+        byte[] bytes = new byte[(int) fileSize];
+
+        // 读取文件内容到字节数组
+        try (FileInputStream fis = new FileInputStream(file)) {
+            int bytesRead = fis.read(bytes);
+            if (bytesRead != bytes.length) {
+                throw new IOException("Failed to read the entire file: " + filePath);
+            }
+        }
+
+        return bytes;
+    }
+
+    /**
+     * 计算文件的MD5值
+     * @param filePath 文件路径
+     * @return MD5字符串
+     * @throws NoSuchAlgorithmException 如果没有这种算法
+     * @throws IOException 如果读取文件出错
+     */
+    public static String calculateFileMD5(String filePath) throws NoSuchAlgorithmException, IOException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        try (FileInputStream fis = new FileInputStream(filePath)) {
+            byte[] dataBytes = new byte[4096000];
+            int nread = 0;
+            while ((nread = fis.read(dataBytes)) != -1) {
+                md.update(dataBytes, 0, nread);
+            }
+        }
+        byte[] mdbytes = md.digest();
+
+        // convert the byte to hex format method 1
+        StringBuilder sb = new StringBuilder();
+        for (byte mdbyte : mdbytes) {
+            sb.append(Integer.toString((mdbyte & 0xff) + 0x100, 16).substring(1));
+        }
+
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        // try {
+        //     String imagePath = "C:\\Users\\洪岩\\Downloads\\test.jpg";
+        //     byte[] imageBytes = imageToByteArray(imagePath);
+        //     System.out.println("Image byte array length: " + imageBytes.length + " bytes"); //2972614 bytes
+        // } catch (IOException e) {
+        //     e.printStackTrace();
+        // }
+        try {
+            String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\parse-httpstream\\src\\main\\resources\\bin_file\\dsmm-request-jpg.bin"; // 替换为实际文件路径
+            String md5 = calculateFileMD5(filePath);
+            System.out.println("文件的MD5值: " + md5);
+        } catch (NoSuchAlgorithmException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
