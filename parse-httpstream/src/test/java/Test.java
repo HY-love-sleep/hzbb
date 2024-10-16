@@ -20,7 +20,7 @@ public class Test {
     private HttpMessageService messageService;
     @org.junit.jupiter.api.Test
     public void test() {
-        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\parse-httpstream\\src\\main\\resources\\bin_file\\dsmm-request-jpg.bin";
+        String filePath = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\parse-httpstream\\src\\main\\resources\\bin_file\\table.bin";
         String outputDir = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\parse-httpstream\\src\\main\\resources\\output_file";
         try {
             byte[] rawData = FileUtils.readFile(filePath);

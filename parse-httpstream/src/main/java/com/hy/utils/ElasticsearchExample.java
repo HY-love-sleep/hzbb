@@ -27,8 +27,8 @@ public class ElasticsearchExample {
     @Autowired
     private HttpMessageService messageService;
 
-    private static final String INDEX_NAME = ".ds-packetbeat-8.15.0-2024.10.08-000003";
-    private static final String DOCUMENT_ID = "MK6LcJIBMgwQbSCsQaqG";
+    private static final String INDEX_NAME = "packetbeat-8.15.0-2024.10.14";
+    private static final String DOCUMENT_ID = "f_qpipIBMgwQbSCskaRS";
     private static final String USERNAME = "elastic";
     private static final String PASSWORD = "qNnEH$u#UddNpShQpX^y";
     private static final String OUTPUT_FILE_PATH = "C:\\My_Work\\IdeaProjects\\MyGitProject\\hzbb\\parse-httpstream\\src\\main\\resources\\output_file\\output_file.png";
@@ -56,12 +56,12 @@ public class ElasticsearchExample {
                     Map<String, Object> responseBodyMap = (Map<String, Object>) httpResponseMap.get("response");
                     Map<String, Object> bodyMap = (Map<String, Object>) responseBodyMap.get("body");
                     // 直接获取字节数组
-                    // byte[] contentBytes = (byte[]) bodyMap.get("content");
+                    byte[] contentBytes = (byte[]) bodyMap.get("content_base64");
                     // 获取字符串形式的文件内容
                     String contentString = (String) bodyMap.get("content");
                     // byte[] contentBytes = Base64.getDecoder().decode(contentString);
                     // 将字符串转换为字节数组
-                    byte[] contentBytes = contentString.getBytes("ISO-8859-1"); // ISO-8859-1是单字节编码，不会改变原始字节内容
+                    // byte[] contentBytes = contentString.getBytes("ISO-8859-1"); // ISO-8859-1是单字节编码，不会改变原始字节内容
                     System.out.println("字节数组长度：" + contentBytes.length);
                     // 将字节数组解析成文件
                     try (FileOutputStream fos = new FileOutputStream(OUTPUT_FILE_PATH)) {
