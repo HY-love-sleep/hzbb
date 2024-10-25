@@ -4,7 +4,7 @@ package com.hy.template;
  * Description: 日志处理模版类
  *
  * @author: yhong
- * Date: 2024/10/16
+ * Date: 2024/1/16
  */
 public abstract class LogProcessor {
     protected abstract void preProcessor();
