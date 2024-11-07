@@ -1,12 +1,9 @@
 import com.hy.Application;
-import com.hy.annotation.IgnoreTenant;
-import com.hy.config.ApiContext;
 import com.hy.entity.Person;
 import com.hy.entity.Tenant;
 import com.hy.mapper.TenantMapper;
 import com.hy.service.PersonService;
 import com.hy.service.TenantService;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
