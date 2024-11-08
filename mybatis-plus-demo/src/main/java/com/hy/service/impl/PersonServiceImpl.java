@@ -45,4 +45,17 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
         queryWrapper.eq(query.getEmail() != null, Person::getEmail, query.getEmail());
         return personMapper.selectOne(queryWrapper);
     }
+
+    @Override
+    public void mockException() {
+        int a = 0;
+        try{
+            a = 1 / 0;
+        } catch (Exception e) {
+            log.error("mockException:{}", e);
+        }
+
+        // a = 1 / 0;
+        System.out.println(a);
+    }
 }

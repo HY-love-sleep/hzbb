@@ -18,4 +18,5 @@ public interface PersonService extends IService<Person> {
     List<Person> findAll();
     Person getPersonByName(String userName);
     Person getPersonByCondition(PersonQuery query);
+    void mockException();
 }
