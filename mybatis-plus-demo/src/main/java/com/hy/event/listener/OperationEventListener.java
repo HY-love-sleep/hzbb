@@ -1,6 +1,8 @@
 package com.hy.event.listener;
 
 import com.hy.event.event.OperationLogEvent;
+import com.hy.event.handler.OperationLogEventProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,9 +13,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class OperationEventListener implements LogEventListener<OperationLogEvent> {
+    @Autowired
+    private OperationLogEventProcessor operationLogEventProcessor;
 
     @Override
     public void onEvent(OperationLogEvent event) {
-
+        operationLogEventProcessor.process(event, operationLogEvent  -> {
+            System.out.println(event);
+        });
     }
 }

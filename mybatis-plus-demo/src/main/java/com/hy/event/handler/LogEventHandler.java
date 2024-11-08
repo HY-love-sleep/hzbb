@@ -8,6 +8,7 @@ import com.hy.event.event.BaseLogEvent;
  * @author: yhong
  * Date: 2024/11/7
  */
+@FunctionalInterface
 public interface LogEventHandler<T extends BaseLogEvent<?>> {
     void handle(T logEvent);
 }
