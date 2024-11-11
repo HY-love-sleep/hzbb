@@ -59,4 +59,9 @@ public class PersonController {
         personService.updateById(params);
         return new ResponseEntity<>("updated successfully", HttpStatus.OK);
     }
+
+    @GetMapping(value = "/ex")
+    public ResponseEntity<Object> mockException() throws Exception {
+        throw new Exception("mock exception");
+    }
 }

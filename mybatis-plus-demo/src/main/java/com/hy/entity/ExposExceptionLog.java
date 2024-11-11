@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author yhong
  * @since 2024-11-07
  */
-@TableName("mysql.expos_exception_log")
+@TableName("expos_exception_log")
 public class ExposExceptionLog implements Serializable {
 
     private static final long serialVersionUID = 1L;

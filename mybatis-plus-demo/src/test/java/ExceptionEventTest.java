@@ -15,7 +15,8 @@ public class ExceptionEventTest {
     @Autowired
     private PersonService personService;
     @Test
-    public void test() {
-        personService.mockException();
+    public void test() throws Exception {
+        throw new Exception("mock exception");
+        // personService.mockException();
     }
 }

@@ -1,28 +1,27 @@
-package com.hy.aspect;
+package com.hy.event.exception;
 
 import com.hy.event.entity.ExceptionLogEntity;
 import com.hy.event.publisher.ExceptionLogPublisher;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@Aspect
-@Component
+/**
+ * Description: 全局异常处理
+ *
+ * @author: yhong
+ * Date: 2024/11/11
+ */
+@RestControllerAdvice(basePackages = {"com.hy"})
 @Slf4j
-public class ExceptionHandlingAspect {
-
+public class GlobalExceptionHandler {
     @Autowired
     private ExceptionLogPublisher exceptionLogPublisher;
-
-    @AfterThrowing(pointcut = "execution(* com.hy.service..*(..))", throwing = "e")
-    public void handleException(Exception e) {
-        log.error("发生异常: ", e);
-        exceptionLogPublisher.publish(createExceptionLogEntity(e)); // 发布异常日志
-    }
-
-    private ExceptionLogEntity createExceptionLogEntity(Exception e) {
+    @ExceptionHandler(value = Exception.class)
+    public void exceptionHandler(Exception e) {
+        log.error(e.getStackTrace()[0].getClassName(), e);
+        // mock
         ExceptionLogEntity entity = new ExceptionLogEntity();
         entity.setAppName("用户中心");
         entity.setDeptId(1L);
@@ -33,6 +32,7 @@ public class ExceptionHandlingAspect {
         entity.setUserName("hongy25");
         entity.setTenantId(1);
         entity.setTraceId(1);
-        return entity;
+
+        exceptionLogPublisher.publish(entity);
     }
 }
