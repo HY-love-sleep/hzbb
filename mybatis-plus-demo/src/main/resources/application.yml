@@ -3,15 +3,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-#    password: ENC(m2z1nXOmHKtVzcrhhUoyEw==)
     url: jdbc:mysql://localhost:3306/demo?&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF8&autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
 
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-#jasypt:
-#  encryptor:
-#    password: hongy25
-#    algorithm: PBEWithMD5AndDES
-#    iv-generator-classname: org.jasypt.iv.NoIvGenerator
