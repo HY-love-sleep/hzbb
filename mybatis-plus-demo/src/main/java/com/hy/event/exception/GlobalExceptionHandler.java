@@ -1,7 +1,9 @@
 package com.hy.event.exception;
 
 import com.hy.event.entity.ExceptionLogEntity;
+import com.hy.event.entity.SimpExceptionLog;
 import com.hy.event.publisher.ExceptionLogPublisher;
+import com.hy.event.publisher.SimpExceptionLogPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
     @Autowired
     private ExceptionLogPublisher exceptionLogPublisher;
+    @Autowired
+    private SimpExceptionLogPublisher simpExceptionLogPublisher;
     @ExceptionHandler(value = Exception.class)
     public void exceptionHandler(Exception e) {
         log.error(e.getStackTrace()[0].getClassName(), e);
@@ -33,6 +37,7 @@ public class GlobalExceptionHandler {
         entity.setTenantId(1);
         entity.setTraceId(1);
 
-        exceptionLogPublisher.publish(entity);
+        // exceptionLogPublisher.publish(entity);
+        simpExceptionLogPublisher.publish(new SimpExceptionLog("分类分级", "business", "测试异常"));
     }
 }

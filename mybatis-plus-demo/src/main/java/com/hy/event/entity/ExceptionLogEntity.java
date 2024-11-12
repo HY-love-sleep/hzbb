@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * Description: 异常日志实体类
@@ -15,6 +16,7 @@ import lombok.Setter;
 @TableName("expos_exception_log")
 @Setter
 @Getter
+@Accessors(chain = true)
 public class ExceptionLogEntity {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

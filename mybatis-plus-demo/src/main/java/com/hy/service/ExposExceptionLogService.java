@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2024-11-07
  */
 public interface ExposExceptionLogService extends IService<ExposExceptionLog> {
-
+    void uploadExLog(ExposExceptionLog exLog);
 }
