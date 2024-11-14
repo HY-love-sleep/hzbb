@@ -1,43 +1,39 @@
 package com.hy.aspect;
 
-import com.hy.event.entity.ExceptionLogEntity;
 import com.hy.event.entity.SimpExceptionLog;
-import com.hy.event.publisher.ExceptionLogPublisher;
 import com.hy.event.publisher.SimpExceptionLogPublisher;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class ExceptionHandlingAspect {
+    private final Environment environment;
+    private final SimpExceptionLogPublisher simpExceptionLogPublisher;
 
-    @Autowired
-    private ExceptionLogPublisher exceptionLogPublisher;
-    @Autowired
-    private SimpExceptionLogPublisher simpExceptionLogPublisher;
+    @Around("execution(* com.hy..*(..))")
+    public Object aroundServiceMethod(ProceedingJoinPoint joinPoint) throws Throwable {
+        try {
+            // 执行方法
+            return joinPoint.proceed();
+        } catch (Exception ex) {
+            // 处理服务层异常
+            log.info("Service layer exception caught in aspect: {}", ex.getMessage());
 
-    @AfterThrowing(pointcut = "execution(* com.hy.service..*(..))", throwing = "e")
-    public void handleException(Exception e) {
-        log.error("发生异常: ", e);
-        // exceptionLogPublisher.publish(createExceptionLogEntity(e)); // 发布异常日志
-        simpExceptionLogPublisher.publish(new SimpExceptionLog("分类分级", "business", "测试异常"));
-    }
-
-    private ExceptionLogEntity createExceptionLogEntity(Exception e) {
-        ExceptionLogEntity entity = new ExceptionLogEntity();
-        entity.setAppName("用户中心");
-        entity.setDeptId(1L);
-        entity.setLogType("ex");
-        entity.setLogLevel("1");
-        entity.setLogContent(e.getMessage());
-        entity.setUserId(1L);
-        entity.setUserName("hongy25");
-        entity.setTenantId(1);
-        entity.setTraceId(1);
-        return entity;
+            SimpExceptionLog event = new SimpExceptionLog();
+            event.setAppName(environment.getProperty("server.servlet.context-path"))
+                    .setLogType(ex.getClass().getName())
+                    .setLogContent(ex.getMessage());
+            simpExceptionLogPublisher.publish(event);
+            // 重新抛出异常，让全局异常处理器处理
+            throw ex;
+        }
     }
 }

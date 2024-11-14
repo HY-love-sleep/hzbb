@@ -3,6 +3,7 @@ package com.hy.event.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * Description: 各模块提供异常日志信息
@@ -13,6 +14,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@Accessors(chain = true)
 public class SimpExceptionLog {
     private String appName;
     private String logType;

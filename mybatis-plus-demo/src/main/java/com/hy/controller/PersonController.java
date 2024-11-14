@@ -1,5 +1,7 @@
 package com.hy.controller;
 
+import com.hy.annotation.LogException;
+import com.hy.event.exception.CustomException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -19,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Controller
 @RequestMapping("/person")
+@LogException
 public class PersonController {
 
 
@@ -62,6 +65,7 @@ public class PersonController {
 
     @GetMapping(value = "/ex")
     public ResponseEntity<Object> mockException() throws Exception {
-        throw new Exception("mock exception");
+        // throw new Exception("mock exception");
+        throw new CustomException(HttpStatus.BAD_REQUEST.value(), "这是一个自定义异常");
     }
 }

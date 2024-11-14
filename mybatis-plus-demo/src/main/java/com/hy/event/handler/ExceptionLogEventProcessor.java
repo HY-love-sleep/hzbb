@@ -1,8 +1,9 @@
 package com.hy.event.handler;
 
 import com.hy.event.event.ExceptionLogEvent;
-import com.hy.event.event.OperationLogEvent;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 /**
  * Description: 异常日志处理器
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ExceptionLogEventProcessor {
-    public void process(ExceptionLogEvent event, LogEventHandler<ExceptionLogEvent> handler){
+    public void process(ExceptionLogEvent event, LogEventHandler<ExceptionLogEvent> handler) {
         handler.handle(event);
     }
 }
