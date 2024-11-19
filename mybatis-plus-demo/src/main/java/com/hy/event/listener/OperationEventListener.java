@@ -1,7 +1,7 @@
 package com.hy.event.listener;
 
 import com.hy.entity.ExposExceptionLog;
-import com.hy.event.entity.OperationLogEntity;
+import com.hy.event.entity.OperationLog;
 import com.hy.event.event.OperationLogEvent;
 import com.hy.event.handler.OperationLogEventProcessor;
 import org.modelmapper.ModelMapper;
@@ -24,7 +24,7 @@ public class OperationEventListener implements LogEventListener<OperationLogEven
     public void onEvent(OperationLogEvent event) {
         operationLogEventProcessor.process(event, operationLogEvent  -> {
             // 处理操作日志逻辑
-            OperationLogEntity log = event.getLog();
+            OperationLog log = event.getLog();
             modelMapper.map(log, ExposExceptionLog.class);
 
         });

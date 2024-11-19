@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @Setter
 @Getter
 @Accessors(chain = true)
-public class ExceptionLogEntity {
+public class ExceptionLog {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     private String appName;

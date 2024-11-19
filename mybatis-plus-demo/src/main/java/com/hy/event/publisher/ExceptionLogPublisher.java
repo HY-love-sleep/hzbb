@@ -1,6 +1,6 @@
 package com.hy.event.publisher;
 
-import com.hy.event.entity.ExceptionLogEntity;
+import com.hy.event.entity.ExceptionLog;
 import com.hy.event.enums.LogTypeEnum;
 import com.hy.event.event.ExceptionLogEvent;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class ExceptionLogPublisher implements LogEventPublisher<ExceptionLogEntity> {
+public class ExceptionLogPublisher implements LogEventPublisher<ExceptionLog> {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
-    public void publish(ExceptionLogEntity exceptionLogEntity) {
-        ExceptionLogEvent exceptionLogEvent = new ExceptionLogEvent(exceptionLogEntity, LogTypeEnum.EXCEPTION);
+    public void publish(ExceptionLog exceptionLog) {
+        ExceptionLogEvent exceptionLogEvent = new ExceptionLogEvent(exceptionLog, LogTypeEnum.EXCEPTION);
         applicationEventPublisher.publishEvent(exceptionLogEvent);
     }
 }

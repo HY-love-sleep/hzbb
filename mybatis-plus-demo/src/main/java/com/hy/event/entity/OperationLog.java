@@ -1,21 +1,18 @@
 package com.hy.event.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
 @TableName("expos_operation_log")
 @Setter
 @Getter
-public class OperationLogEntity {
+public class OperationLog {
     @TableId(type = IdType.AUTO)
     private Long id;
     private String servName; // 服务名称
@@ -38,7 +35,7 @@ public class OperationLogEntity {
     private Date requestTime;
     private Long tenantId;
     
-    public OperationLogEntity() {
+    public OperationLog() {
     }
 
 }

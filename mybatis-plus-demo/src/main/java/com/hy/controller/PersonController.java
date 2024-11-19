@@ -1,6 +1,5 @@
 package com.hy.controller;
 
-import com.hy.annotation.LogException;
 import com.hy.event.exception.CustomException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Controller
 @RequestMapping("/person")
-@LogException
 public class PersonController {
 
 

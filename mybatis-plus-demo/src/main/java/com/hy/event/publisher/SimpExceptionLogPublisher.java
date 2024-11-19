@@ -1,6 +1,6 @@
 package com.hy.event.publisher;
 
-import com.hy.event.entity.ExceptionLogEntity;
+import com.hy.event.entity.ExceptionLog;
 import com.hy.event.entity.SimpExceptionLog;
 import com.hy.event.enums.LogTypeEnum;
 import com.hy.event.event.ExceptionLogEvent;
@@ -23,14 +23,14 @@ public class SimpExceptionLogPublisher implements LogEventPublisher<SimpExceptio
 
     @Override
     public void publish(SimpExceptionLog logEvent) {
-        ExceptionLogEntity exceptionLogEntity = MODEL_MAPPER.map(logEvent, ExceptionLogEntity.class);
-        exceptionLogEntity.setDeptId(1L)
+        ExceptionLog exceptionLog = MODEL_MAPPER.map(logEvent, ExceptionLog.class);
+        exceptionLog.setDeptId(1L)
                 .setLogLevel("1")
                 .setUserId(1L)
                 .setUserName("hongy")
                 .setTraceId(1)
                 .setTenantId(1);
-        ExceptionLogEvent exceptionLogEvent = new ExceptionLogEvent(exceptionLogEntity, LogTypeEnum.EXCEPTION);
+        ExceptionLogEvent exceptionLogEvent = new ExceptionLogEvent(exceptionLog, LogTypeEnum.EXCEPTION);
         applicationEventPublisher.publishEvent(exceptionLogEvent);
     }
 }
