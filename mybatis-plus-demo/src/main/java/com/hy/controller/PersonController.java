@@ -1,5 +1,6 @@
 package com.hy.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,10 +21,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Controller
 @RequestMapping("/person")
 public class PersonController {
+    @Value("${app.name}")
+    private String name;
 
 
     @Autowired
     private PersonService personService;
+
+    @GetMapping("/name")
+    public String getName() {
+        return name;
+    }
 
     @GetMapping(value = "/")
     public ResponseEntity<Page<Person>> list(@RequestParam(required = false) Integer current, @RequestParam(required = false) Integer pageSize) {
