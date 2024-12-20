@@ -1,5 +1,8 @@
 package com.hy.controller;
 
+import com.cubigdata.expos.framework.core.exception.BusinessException;
+import com.cubigdata.expos.framework.core.response.BaseResult;
+import com.cubigdata.expos.framework.mybatis.crypto.service.DataMigrationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
@@ -21,16 +24,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Controller
 @RequestMapping("/person")
 public class PersonController {
-    @Value("${app.name}")
-    private String name;
-
-
+    private final DataMigrationService dataMigrationService;
+    private final PersonService personService;
     @Autowired
-    private PersonService personService;
+    public PersonController(PersonService personService, DataMigrationService dataMigrationService) {
+        this.personService = personService;
+        this.dataMigrationService = dataMigrationService;
+    }
 
-    @GetMapping("/name")
-    public String getName() {
-        return name;
+    @PostMapping("/refreshUserInfo")
+    public BaseResult refreshUserInfo(
+            @RequestParam String jdbcUrl,
+            @RequestParam String username,
+            @RequestParam String password) {
+        try {
+            dataMigrationService.refreshUserInfo(jdbcUrl, username, password);
+            return BaseResult.success("User information refreshed and encrypted successfully.");
+        } catch (Exception e) {
+            throw new BusinessException("Failed to refresh user information: " + e.getMessage());
+        }
     }
 
     @GetMapping(value = "/")

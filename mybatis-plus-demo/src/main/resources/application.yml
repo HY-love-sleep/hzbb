@@ -9,8 +9,11 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-app:
-  name: Dsj(AEN(ayiqS3MWnwHRMv4Ckc85yA==))
+expos:
+  mybatis:
+    crypto:
+      enabled: true
+      algorithm: AES
 
 #idaas:
 #  decerypt:
