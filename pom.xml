@@ -36,6 +36,7 @@
         <module>url-scan-demo</module>
         <module>netty-demo</module>
         <module>parse-httpstream</module>
+        <module>sseEmitter-demo</module>
     </modules>
 
     <properties>

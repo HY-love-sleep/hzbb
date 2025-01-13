@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netty WebSocket Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #messages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+        #inputMessage {
+            width: 80%;
+            padding: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 8px 12px;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        let socket;
+
+        // Connect to WebSocket server
+        function connect() {
+            // Create a WebSocket connection to the server
+            socket = new WebSocket("ws://localhost:8080/ws");
+
+            // Handle WebSocket open event (connection established)
+            socket.onopen = function() {
+                console.log("Connected to server");
+                displayMessage("Connected to server");
+            };
+
+            // Handle incoming messages from the server
+            socket.onmessage = function(event) {
+                const message = event.data;
+                console.log("Received from server: " + message);
+                displayMessage("Server: " + message);
+            };
+
+            // Handle WebSocket close event (connection closed)
+            socket.onclose = function() {
+                console.log("Connection closed");
+                displayMessage("Connection closed");
+            };
+
+            // Handle WebSocket error event
+            socket.onerror = function(error) {
+                console.log("WebSocket Error: " + error);
+                displayMessage("WebSocket Error: " + error);
+            };
+        }
+
+        // Send a message to the server via WebSocket
+        function sendMessage() {
+            const message = document.getElementById("inputMessage").value;
+            if (message) {
+                socket.send(message);
+                displayMessage("You: " + message); // Display the sent message
+                document.getElementById("inputMessage").value = ''; // Clear input
+            }
+        }
+
+        // Display a message in the message window
+        function displayMessage(msg) {
+            const messageDiv = document.getElementById("messages");
+            messageDiv.innerHTML += "<p>" + msg + "</p>";
+            messageDiv.scrollTop = messageDiv.scrollHeight; // Scroll to the latest message
+        }
+
+        // Initialize WebSocket connection on page load
+        window.onload = function() {
+            connect();
+        };
+    </script>
+</head>
+<body>
+<h1>Netty WebSocket Client</h1>
+<div id="messages"></div>
+<input type="text" id="inputMessage" placeholder="Type a message" />
+<button onclick="sendMessage()">Send</button>
+</body>
+</html>
