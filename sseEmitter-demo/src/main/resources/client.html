@@ -11,7 +11,7 @@
 
 <script>
     // 创建EventSource对象连接到后端的SSE流
-    const eventSource = new EventSource('http://localhost:8080/stream-messages');
+    const eventSource = new EventSource('http://localhost:8080/stream');
 
     // 监听消息事件
     eventSource.onmessage = function(event) {
