@@ -10,23 +10,21 @@
 <div id="messages"></div>
 
 <script>
-    // 创建EventSource对象连接到后端的SSE流
+    // 确保URL与后端一致，且通过HTTP访问（非file://）
     const eventSource = new EventSource('http://localhost:8080/stream');
 
-    // 监听消息事件
-    eventSource.onmessage = function(event) {
-        // 获取推送的消息
+    // 监听自定义事件名（与后端SseEmitter.event().name()一致）
+    eventSource.addEventListener("message-event", function(event) {
         const message = event.data;
-
-        // 将新消息添加到页面中
         const messageDiv = document.createElement('div');
         messageDiv.textContent = message;
         document.getElementById('messages').appendChild(messageDiv);
-    };
+    });
 
-    // 错误处理
-    eventSource.onerror = function(event) {
-        console.error("Error occurred:", event);
+    // 统一错误处理
+    eventSource.onerror = function(e) {
+        console.error("SSE Error:", e);
+        eventSource.close();
     };
 </script>
 </body>
